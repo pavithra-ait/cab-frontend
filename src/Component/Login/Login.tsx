@@ -1,7 +1,8 @@
 import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
+import { useNavigate } from 'react-router-dom';
 
 interface logindata {
     email: string,
@@ -21,6 +22,7 @@ export default function Login() {
     function handleclose() {
         setopen(false)
     }
+    const navi = useNavigate()
 
     function handlelogin() {
         const datas: logindata = {
@@ -28,22 +30,28 @@ export default function Login() {
         }
         axios.post('http://localhost:4000/api/user/login', datas)
             .then((res) => {
-                localStorage.setItem("auth", res.data.token)
+                localStorage.setItem("user", res.data.token)
                 handleopen()
                 setemail(" ")
                 setpassword(" ")
             })
             .catch()
     }
+    useEffect(() => {
+        const auth = localStorage.getItem('user')
+        if (auth) {
+            navi('/user-panel')
+        }
+    })
     return (
         <div>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '640px', flexGrow: 1, backgroundImage:'url("./image/login.png")',backgroundRepeat:'no-repeat' ,backgroundSize:'cover',backgroundAttachment:'fixed'}}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '640px', flexGrow: 1, backgroundImage: 'url("./image/login.png")', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
 
-                <Box sx={{ height: 'auto', width: '400px', bgcolor: 'tranparent',backdropFilter:'blur(10px)', borderRadius: 4, display: 'flex', flexDirection: 'column', marginInline: 5 }} boxShadow={7}>
+                <Box sx={{ height: 'auto', width: '400px', bgcolor: 'tranparent', backdropFilter: 'blur(10px)', borderRadius: 4, display: 'flex', flexDirection: 'column', marginInline: 5 }} boxShadow={7}>
                     <Box sx={{ margin: 2 }}>
                         <Typography color='#d500f9' variant='h4'>Login...!!</Typography>
                     </Box>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', margin: 4, gap: 4,fontSize:10,fontWeight:900 }}>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', margin: 4, gap: 4, fontSize: 10, fontWeight: 900 }}>
 
                         <TextField fullWidth type='email' size='small' label="Email" onChange={(e) => { setemail(e.target.value) }} variant="standard" color="secondary" focused></TextField>
 

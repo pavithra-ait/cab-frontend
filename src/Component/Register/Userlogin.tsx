@@ -1,21 +1,20 @@
-import { Box, Button, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Link, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
-import { useState } from 'react'
+import {  useState } from 'react'
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
 
-interface driverdata {
+interface Userdata {
     name: string,
     email: string,
     password: string,
     gender: string,
     city: string,
     address: string,
-    mobile: number,
-    licence: number
+    mobile: number
 }
 
 
-export default function Driverregister() {
+export default function Userregister() {
     const [open, setopen] = useState(false)
     const [name, setname] = useState('')
     const [email, setemail] = useState('')
@@ -24,7 +23,6 @@ export default function Driverregister() {
     const [city, setcity] = useState('')
     const [address, setaddress] = useState('')
     const [mobile, setmobile] = useState('')
-    const [licence, setlicence] = useState('')
 
     function handleopen() {
         setopen(true)
@@ -35,10 +33,10 @@ export default function Driverregister() {
     }
 
     function handleregister() {
-        const datas: driverdata = {
-            name, email, password, gender, city, address, mobile: Number(mobile), licence: Number(licence)
+        const userdatas: Userdata = {
+            name, email, password, gender, city, address, mobile: Number(mobile)
         }
-        axios.post('http://localhost:4000/api/driver/register', datas)
+        axios.post('http://localhost:4000/api/user/register', userdatas)
             .then(() => {
                 handleopen()
                 setname(" ")
@@ -73,10 +71,10 @@ export default function Driverregister() {
 
                         <TextField type='text' size='small' label="address" variant="filled" onChange={(e) => { setaddress(e.target.value) }} color="success" focused></TextField>
 
-                        <TextField type='number' size='small' label="mobile no" onChange={(e) => { setmobile(e.target.value) }} variant="filled" color="success" focused></TextField>
-                        <TextField type='number' size='small' label="licence no" onChange={(e) => { setlicence(e.target.value) }} variant="filled" color="success" focused></TextField>
+                        <TextField fullWidth type='number' size='small' label="mobile no" onChange={(e) => { setmobile(e.target.value) }} variant="filled" color="success" focused></TextField>
 
                         <Button fullWidth variant='contained' onClick={handleregister}>Register</Button>
+                        <Link top={'/user-register'} sx={{textDecoration:'none'}}>Don't account ? Register first</Link>
                     </Box>
                     <Modal
                         disablePortal
@@ -103,10 +101,10 @@ export default function Driverregister() {
                             })}
                         >
                             <Typography id="server-modal-description" sx={{ pt: 2 }}>
-                                Driver registered successfully
+                               User registered successfully
                             </Typography>
-                            <Button color='success' sx={{ margin: 5 }} onClick={handleclose}>
-                                <CheckSharpIcon />
+                            <Button color='success' sx={{margin:5}} onClick={handleclose}>
+                                <CheckSharpIcon/>
                             </Button>
                         </Box>
                     </Modal>

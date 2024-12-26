@@ -17,6 +17,7 @@
     "axios": "^1.7.9",
     "cra-template-typescript": "1.2.0",
     "install": "^0.13.0",
+    "motion": "^11.15.0",
     "npm": "^11.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

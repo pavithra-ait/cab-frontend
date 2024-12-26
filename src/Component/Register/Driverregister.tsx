@@ -1,20 +1,22 @@
-import { Box, Button, Link, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
-import {  useState } from 'react'
+import { useEffect, useState } from 'react'
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
+import { useNavigate } from 'react-router-dom';
 
-interface userdata {
+interface driverdata {
     name: string,
     email: string,
     password: string,
     gender: string,
     city: string,
     address: string,
-    mobile: number
+    mobile: number,
+    licence: number
 }
 
 
-export default function Userregister() {
+export default function Driverregister() {
     const [open, setopen] = useState(false)
     const [name, setname] = useState('')
     const [email, setemail] = useState('')
@@ -23,6 +25,7 @@ export default function Userregister() {
     const [city, setcity] = useState('')
     const [address, setaddress] = useState('')
     const [mobile, setmobile] = useState('')
+    const [licence, setlicence] = useState('')
 
     function handleopen() {
         setopen(true)
@@ -33,10 +36,10 @@ export default function Userregister() {
     }
 
     function handleregister() {
-        const userdatas: userdata = {
-            name, email, password, gender, city, address, mobile: Number(mobile)
+        const datas: driverdata = {
+            name, email, password, gender, city, address, mobile: Number(mobile), licence: Number(licence)
         }
-        axios.post('http://localhost:4000/api/user/register', userdatas)
+        axios.post('http://localhost:4000/api/driver/register', datas)
             .then(() => {
                 handleopen()
                 setname(" ")
@@ -49,6 +52,20 @@ export default function Userregister() {
             })
             .catch()
     }
+
+    const navi = useNavigate()
+
+    useEffect(() => {
+        const auth = localStorage.getItem('auth')
+        const admin = localStorage.getItem('admin')
+        if (auth) {
+            navi('/driver-panel')
+        } else if (admin) {
+            navi('/admin-panel')
+        } else {
+            navi('/driver-login')
+        }
+    })
     return (
         <div>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '640px', flexGrow: 1, bgcolor: '#69f0ae' }}>
@@ -71,10 +88,10 @@ export default function Userregister() {
 
                         <TextField type='text' size='small' label="address" variant="filled" onChange={(e) => { setaddress(e.target.value) }} color="success" focused></TextField>
 
-                        <TextField fullWidth type='number' size='small' label="mobile no" onChange={(e) => { setmobile(e.target.value) }} variant="filled" color="success" focused></TextField>
+                        <TextField type='number' size='small' label="mobile no" onChange={(e) => { setmobile(e.target.value) }} variant="filled" color="success" focused></TextField>
+                        <TextField type='number' size='small' label="licence no" onChange={(e) => { setlicence(e.target.value) }} variant="filled" color="success" focused></TextField>
 
                         <Button fullWidth variant='contained' onClick={handleregister}>Register</Button>
-                        <Link top={'/user-register'} sx={{textDecoration:'none'}}>Don't account ? Register first</Link>
                     </Box>
                     <Modal
                         disablePortal
@@ -101,10 +118,10 @@ export default function Userregister() {
                             })}
                         >
                             <Typography id="server-modal-description" sx={{ pt: 2 }}>
-                               User registered successfully
+                                Driver registered successfully
                             </Typography>
-                            <Button color='success' sx={{margin:5}} onClick={handleclose}>
-                                <CheckSharpIcon/>
+                            <Button color='success' sx={{ margin: 5 }} onClick={handleclose}>
+                                <CheckSharpIcon />
                             </Button>
                         </Box>
                     </Modal>

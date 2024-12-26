@@ -1,4 +1,9 @@
 .App {
   text-align: center;
+  font-family: "PT Serif", serif;
+  font-weight: 600;
+  font-style: normal;
 }
-
+.imagelist::-webkit-scrollbar{
+  display: none;
+}
