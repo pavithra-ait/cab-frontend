@@ -28,9 +28,10 @@ export default function Login() {
         const datas: logindata = {
             email, password
         }
-        axios.post('http://localhost:4000/api/user/login', datas)
+        axios.post('http://localhost:4001/api/user/login', datas)
             .then((res) => {
                 localStorage.setItem("user", res.data.token)
+                localStorage.setItem("id", res.data.datas._id)
                 handleopen()
                 setemail(" ")
                 setpassword(" ")

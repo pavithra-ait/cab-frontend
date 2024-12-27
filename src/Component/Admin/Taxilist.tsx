@@ -16,7 +16,7 @@ const Taxilist: React.FC = () => {
     const [row, setrow] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/taxi/find')
+        axios.get('http://localhost:4001/api/taxi/find')
             .then(res => {
                 setrow(res.data)
             })
@@ -42,7 +42,7 @@ const Taxilist: React.FC = () => {
                         {row.map((row: Taxilists,index) => (
                             <TableRow key={row.taxiname}>
                                 <TableCell>
-                                <img src={`http://localhost:4000/api/taxi/view/${row.taxiimage}`} alt={row.taxiname} width="100" />
+                                <img src={`http://localhost:4001/api/taxi/view/${row.taxiimage}`} alt={row.taxiname} width="100" />
                                     
                                 </TableCell>
                                 <TableCell align="center">{row.taxibrand}</TableCell>

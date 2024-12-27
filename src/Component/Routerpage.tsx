@@ -18,6 +18,10 @@ import About from './Homepage/About'
 import Driverhome from './Driver/Driverhome'
 import Userpanel from './User/Userpanel'
 import Userhome from './User/Userhome'
+import Taxiavailable from './User/Taxiavailable'
+import Booking from './User/Booking'
+import Bookinglist from './Driver/Booinglist'
+import Paymentlist from './User/Paymentlist'
 
 export default function Routerpage() {
     return (
@@ -39,12 +43,17 @@ export default function Routerpage() {
 
                     <Route path='/user-panel' element={<Userpanel />}>
                         <Route path='user-home' element={<Userhome />}></Route>
+                        <Route path='taxi-available' element={<Taxiavailable />}></Route>
+                        <Route path='booking' element={<Booking />}></Route>
+                        <Route path='payment-list' element={<Paymentlist />}></Route>
                     </Route>
 
                     <Route path='/driver-panel' element={<Navigate to='/driver-panel/driver-home' />} />
 
                     <Route path='/driver-panel' element={<Driverpanel />}>
                         <Route path='driver-home' element={<Driverhome />}></Route>
+                        <Route path='booking-list' element={<Bookinglist />}></Route>
+
                     </Route>
 
                     <Route path='/admin-panel' element={<Navigate to='/admin-panel/admin-home' />} />

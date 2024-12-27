@@ -17,7 +17,7 @@ const Driverlist: React.FC = () => {
     const [row, setrow] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/driver/all')
+        axios.get('http://localhost:4001/api/driver/all')
             .then(res => {
                 setrow(res.data)
             })

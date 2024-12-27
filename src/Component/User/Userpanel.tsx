@@ -34,15 +34,21 @@ export default function Userpanel() {
   })
 
   const DrawerList = (
-    <Box onClick={toggleDrawer(false)} sx={{ bgcolor: '#ef6c00', width: 200, height: '640px', display: 'flex', justifyContent: 'center', alignItems: 'start' }}>
+    <Box onClick={toggleDrawer(false)} sx={{ bgcolor: 'white', width: 200, height: '640px', display: 'flex', justifyContent: 'center', alignItems: 'start' }}>
       <List sx={{ marginTop: 10 }}>
 
         <ListItem disablePadding sx={{ display: 'flex', flexDirection: 'column' }}>
           <ListItemButton>
-            <Link href={'/user-panel/user-home'} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }} >Home </Link>
+            <Link href={'/user-panel/user-home'} sx={{ textDecoration: 'none', color: '#ef6c00', fontSize: '18px', fontWeight: 500 }} >Home </Link>
           </ListItemButton>
           <ListItemButton>
-            <Link onClick={logout} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }}  >Logout </Link>
+            <Link href={'/user-panel/taxi-available'} sx={{ textDecoration: 'none', color: '#ef6c00', fontSize: '18px', fontWeight: 500 }} >Taxi avaiablity </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Link href={'/user-panel/payment-list'} sx={{ textDecoration: 'none', color: '#ef6c00', fontSize: '18px', fontWeight: 500 }} >Payment list </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Link onClick={logout} sx={{ textDecoration: 'none', color: '#ef6c00', fontSize: '18px', fontWeight: 500 }}  >Logout </Link>
           </ListItemButton>
         </ListItem>
 
@@ -52,11 +58,11 @@ export default function Userpanel() {
 
   return (
     <Box sx={{ height: '640px', width: '100%' }}>
-      <AppBar position="fixed" color='warning' sx={{ display: 'flex', flexDirection: 'column', backdropFilter: 'blur(104px)' }}>
+      <AppBar position="fixed"  sx={{ display: 'flex', flexDirection: 'column', backdropFilter: 'blur(104px)',bgcolor:'white'}}>
         <Toolbar disableGutters >
           <Container maxWidth="lg" sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
             <Box sx={{ display: 'flex', marginTop: 1 }} >
-              <LocalTaxiIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+              <LocalTaxiIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1,color:'#ef6c00' }} />
               <Typography
                 variant="h6"
                 sx={{
@@ -65,7 +71,7 @@ export default function Userpanel() {
                   fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: '.3rem',
-                  color: 'inherit',
+                  color: '#ef6c00',
                   textDecoration: 'none',
                 }}
               >
@@ -81,7 +87,7 @@ export default function Userpanel() {
                   fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: '.3rem',
-                  color: 'inherit',
+                  color: '#ef6c00',
                   textDecoration: 'none',
                 }}
               >
@@ -97,7 +103,7 @@ export default function Userpanel() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={toggleDrawer(true)}
-                color="inherit"
+               sx={{ color:"#ef6c00"}}
               >
                 <MenuIcon />
               </IconButton>

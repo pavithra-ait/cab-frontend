@@ -16,7 +16,7 @@ const Transactionlist: React.FC = () => {
     const [row, setrow] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:4000/api/payment/find')
+        axios.get('http://localhost:4001/api/payment/find')
             .then(res => {
                 setrow(res.data)
             })

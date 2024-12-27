@@ -39,7 +39,7 @@ export default function Driverregister() {
         const datas: driverdata = {
             name, email, password, gender, city, address, mobile: Number(mobile), licence: Number(licence)
         }
-        axios.post('http://localhost:4000/api/driver/register', datas)
+        axios.post('http://localhost:4001/api/driver/register', datas)
             .then(() => {
                 handleopen()
                 setname(" ")
