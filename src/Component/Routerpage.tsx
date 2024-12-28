@@ -35,9 +35,10 @@ export default function Routerpage() {
                         <Route path='about' element={<About />}></Route>
                         <Route path='/login' element={<Login />}></Route>
                         <Route path='/driver-login' element={<Driverlogin />}></Route>
+                        <Route path='/user-register' element={<Userregister />}></Route>
+                        <Route path='/driver-register' element={<Driverregister />}></Route>
+
                     </Route>
-                    <Route path='/user-register' element={<Userregister />}></Route>
-                    <Route path='/driver-register' element={<Driverregister />}></Route>
 
                     <Route path='/user-panel' element={<Navigate to='/user-panel/user-home' />} />
 

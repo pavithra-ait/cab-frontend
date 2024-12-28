@@ -2,7 +2,7 @@ import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import { useState } from 'react'
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Driverlogins {
     email: string,
@@ -64,6 +64,8 @@ export default function Driverlogin() {
                         <TextField fullWidth type='password' size='small' variant='standard' label="Password" onChange={(e) => { setpassword(e.target.value) }} color="secondary" focused></TextField>
 
                         <Button fullWidth variant='contained' color='secondary' onClick={handlelogin}>Login</Button>
+                        <Link to={'/driver-register'}>Don't account ? Register first</Link>
+                    
                     </Box>
                     <Modal
                         disablePortal

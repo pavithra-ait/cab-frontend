@@ -54,9 +54,6 @@ export default function Adminpanel() {
                         <Link href={'/admin-panel/taxi-add'} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }} >Add Taxi</Link>
                     </ListItemButton>
                     <ListItemButton>
-                        <Link href={'/admin-panel/payment-list'} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }} >Payment details</Link>
-                    </ListItemButton>
-                    <ListItemButton>
                         <Link onClick={logout} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }}  >Logout </Link>
                     </ListItemButton>
                 </ListItem>

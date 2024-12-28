@@ -42,7 +42,7 @@ export default function Driverpanel() {
             <Link href={'/driver-panel/driver-home'} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }} >Home </Link>
           </ListItemButton>
           <ListItemButton>
-            <Link href={'/driver-panel/booking-list'} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }} >Home </Link>
+            <Link href={'/driver-panel/booking-list'} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }} >Booking List</Link>
           </ListItemButton>
           <ListItemButton>
             <Link onClick={logout} sx={{ textDecoration: 'none', color: 'white', fontSize: '18px', fontWeight: 500 }}  >Logout </Link>

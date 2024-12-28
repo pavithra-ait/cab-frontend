@@ -1,22 +1,23 @@
-import { Box, Button, Container, FormControl, Modal, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, } from '@mui/material'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { Box, Button, Container, FormControl, Modal, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useElements, useStripe } from '@stripe/react-stripe-js';
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
 
-
 interface Bookinglists {
-    taxiid: string,
-    userid: string,
-    pickup_time: string,
-    booking_date: string,
-    from: string,
-    to: string,
-    _id: string
+    taxiid: string;
+    userid: string;
+    pickup_time: string;
+    booking_date: string;
+    from: string;
+    to: string;
+    _id: string;
 }
 
-
 interface Trip {
-    bookingid: string,
+    bookingid: string;
+    amount: string;
+    currency: string;
 }
 
 const style = {
@@ -31,65 +32,66 @@ const style = {
     p: 4,
 };
 
-
 const Bookinglist: React.FC = () => {
-    const [row, setrow] = useState<Bookinglists[]>([])
-
+    const stripe = useStripe();
+    const elements = useElements();
+    const [row, setRow] = useState<Bookinglists[]>([]);
     const [open, setOpen] = useState(false);
-    const [bookingid, setbookingid] = useState<string>('');
-
-    const [opene, setopene] = useState(false)
-    const handleOpen = () => setOpen(true);
+    const [bookingid, setBookingid] = useState<string>('');
+    const [amount, setAmount] = useState<string>('');
+    const [currency, setCurrency] = useState<string>('usd');
+    const [openSuccess, setOpenSuccess] = useState(false);
     const handleClose = () => setOpen(false);
+    const handleSuccessClose = () => setOpenSuccess(false);
 
     const handleEdit = (item: Bookinglists) => {
-        setbookingid(item._id);
+        setBookingid(item._id);
         setOpen(true);
     };
 
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
-        const Trip: Trip = {
-            bookingid: bookingid,
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        if (!stripe || !elements) return;
+
+        const data: Trip = {
+            bookingid,
+            amount,
+            currency,
         };
 
-        await axios.post('http://localhost:4001/api/payment/create', Trip)
-            .then((res) => {
+        console.log('Making API call to create payment intent...');
+        await axios.post('http://localhost:4001/api/payment/create-payment-intent', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                console.log('Payment Intent Created:', response);
                 setOpen(false);
-                handleClose()
-                handleopene()
-                console.log(res.data);
-
-            }).catch((err) => {
-                console.log(err)
+                setOpenSuccess(true);
             })
-
+            .catch(error => {
+                console.error('Payment failed', error.response ? error.response.data : error);
+            });
 
     };
 
 
-
-    function handleopene() {
-        setopene(true)
-    }
-
-    function handleclosee() {
-        setopene(false)
-    }
-
     useEffect(() => {
-        axios.get(`http://localhost:4001/api/book/find`)
+        axios.get('http://localhost:4001/api/book/find')
             .then(res => {
-                setrow(res.data);
+                setRow(res.data);
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
     }, []);
 
     return (
-        <Box sx={{ height: '506px', width: '100%', display: 'flex', flexDirection: 'column', gap: 3, justifyContent: 'start', position: 'relative', top: '120px' }} >
+        <Box sx={{ height: '506px', width: '100%', display: 'flex', flexDirection: 'column', gap: 3, justifyContent: 'start', position: 'relative', top: '120px' }}>
             <Typography variant='h4'>Booking list</Typography>
             <Container>
-                <Table sx={{ minWidth: 650 }} >
+                <Table sx={{ minWidth: 650 }}>
                     <TableHead sx={{ bgcolor: '#ef6c00' }}>
                         <TableRow>
                             <TableCell align="center">Taxi id</TableCell>
@@ -98,92 +100,82 @@ const Bookinglist: React.FC = () => {
                             <TableCell align="center">Booking date</TableCell>
                             <TableCell align="center">From</TableCell>
                             <TableCell align="center">To</TableCell>
-                            <TableCell align="center">Status</TableCell>
+                            <TableCell align="center">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {row.map((row: Bookinglists) => (
-                            <TableRow key={row._id}>
-                                <TableCell align="center">{row.taxiid}</TableCell>
-                                <TableCell align="center">{row.userid}</TableCell>
-                                <TableCell align="center">{row.pickup_time}</TableCell>
-                                <TableCell align="center">{row.booking_date}</TableCell>
-                                <TableCell align="center">{row.from}</TableCell>
-                                <TableCell align="center">{row.to}</TableCell>
+                        {row.map((item) => (
+                            <TableRow key={item._id}>
+                                <TableCell align="center">{item.taxiid}</TableCell>
+                                <TableCell align="center">{item.userid}</TableCell>
+                                <TableCell align="center">{item.pickup_time}</TableCell>
+                                <TableCell align="center">{item.booking_date}</TableCell>
+                                <TableCell align="center">{item.from}</TableCell>
+                                <TableCell align="center">{item.to}</TableCell>
                                 <TableCell align="center">
-                                    <Button variant='contained' color='warning' onClick={() => {
-                                        handleEdit(row)
-                                        handleOpen()
-                                    }}>Payment</Button>
+                                    <Button variant='contained' color='warning' onClick={() => handleEdit(item)}>
+                                        Payment
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </Container>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
+
+            {/* Payment Modal */}
+            <Modal open={open} onClose={handleClose}>
                 <Box sx={style}>
-                    <Typography variant='h5' color='warning' sx={{ marginBlock: 1, textAlign: 'center' }}>Payment generate</Typography>
+                    <Typography variant='h5' color='warning' sx={{ marginBlock: 1, textAlign: 'center' }}>
+                        Payment Details
+                    </Typography>
 
                     <FormControl sx={{ display: 'flex', gap: 4, width: '100%', flexWrap: 'wrap', flexDirection: 'row', marginBlock: 2 }}>
                         <TextField
                             fullWidth
-                            label="Booking id"
-                            name="Booking id"
+                            label="Booking ID"
                             type="text"
                             value={bookingid}
-                            onChange={(e) => setbookingid(e.target.value)}
-                            margin="normal"
-                            color='warning'
-                            focused
+                            onChange={(e) => setBookingid(e.target.value)}
                             required
                         />
-                       
-
+                        <TextField
+                            fullWidth
+                            label="Amount"
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            required
+                        />
+                        <TextField
+                            fullWidth
+                            label="Currency"
+                            type="text"
+                            value={currency}
+                            onChange={(e) => setCurrency(e.target.value)}
+                            required
+                        />
                     </FormControl>
 
-                    <Button fullWidth color='warning' variant='contained' onClick={handleSubmit}>Payment</Button>
+                    <Button fullWidth color='warning' variant='contained' onClick={handleSubmit}>
+                        Submit Payment
+                    </Button>
                 </Box>
             </Modal>
-            <Modal
-                disablePortal
-                disableEnforceFocus
-                disableAutoFocus
-                open={opene}
-                onClose={handleclosee}
-                aria-describedby="server-modal-description"
-                sx={{
-                    display: 'flex',
-                    p: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Box
-                    sx={(theme) => ({
-                        position: 'relative',
-                        width: 400,
-                        bgcolor: 'background.paper',
-                        border: '2px solid #000',
-                        boxShadow: theme.shadows[5],
-                        p: 4,
-                    })}
-                >
-                    <Typography id="server-modal-description" sx={{ pt: 2 }}>
-                        Payment  is success fully send
+
+            {/* Success Modal */}
+            <Modal open={openSuccess}>
+                <Box sx={style}>
+                    <Typography variant="h5" color="success" sx={{ textAlign: 'center' }}>
+                        Payment Successful!
                     </Typography>
-                    <Button color='success' sx={{ margin: 5 }} onClick={handleclosee}>
+                    <Button color='success'  onClick={handleSuccessClose}>
                         <CheckSharpIcon />
                     </Button>
                 </Box>
             </Modal>
         </Box>
     );
-}
+};
 
 export default Bookinglist;

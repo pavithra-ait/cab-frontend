@@ -1,8 +1,8 @@
 import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
-import { useNavigate } from 'react-router-dom';
+
 
 interface driverdata {
     name: string,
@@ -52,20 +52,6 @@ export default function Driverregister() {
             })
             .catch()
     }
-
-    const navi = useNavigate()
-
-    useEffect(() => {
-        const auth = localStorage.getItem('auth')
-        const admin = localStorage.getItem('admin')
-        if (auth) {
-            navi('/driver-panel')
-        } else if (admin) {
-            navi('/admin-panel')
-        } else {
-            navi('/driver-login')
-        }
-    })
     return (
         <div>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '640px', flexGrow: 1, bgcolor: '#69f0ae' }}>
