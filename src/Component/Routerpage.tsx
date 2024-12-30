@@ -56,6 +56,8 @@ export default function Routerpage() {
                         <Route path='booking-list' element={<Bookinglist />}></Route>
 
                     </Route>
+                    <Route path='/payment-list' element={<Paymentlist />}></Route>
+
 
                     <Route path='/admin-panel' element={<Navigate to='/admin-panel/admin-home' />} />
 
