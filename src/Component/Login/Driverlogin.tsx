@@ -1,6 +1,6 @@
 import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -24,36 +24,48 @@ export default function Driverlogin() {
     }
     const navi = useNavigate()
 
-   async function handlelogin() {
+    async function handlelogin() {
         const datas: Driverlogins = {
             email, password
         }
         if (email === 'admin@gmail.com' && password === 'admin') {
-            navi('/admin-panel')
             localStorage.setItem("admin", "admin")
+            navi('/admin-panel')
 
         } else {
 
-          await axios.post('http://localhost:4001/api/driver/login', datas)
+            await axios.post('http://localhost:4242/api/driver/login', datas)
                 .then((res) => {
                     localStorage.setItem("driver", res.data.token)
                     handleopen()
                     setemail(" ")
                     setpassword(" ")
-                    navi('/driver-panel')
+                    navi('/driver-panel/driver-home')
 
                 })
-                .catch(err=>{
+                .catch(err => {
                     console.log(err)
                 })
         }
 
     }
+
+     useEffect(() => {
+            const driver = localStorage.getItem('driver')
+            const admin = localStorage.getItem('admin')
+            if (driver) {
+                navi('/driver-panel/driver-home')
+            }
+
+            if (admin) {
+                navi('/admin-panel/admin-home')
+            }
+        }, [navi])
     return (
         <div>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '640px', flexGrow: 1 }}>
 
-                <Box  sx={{ height: 'auto', width: '400px',  bgcolor:'#ef6c00', borderRadius: 4, display: 'flex', flexDirection: 'column', marginInline: 5 }} boxShadow={7}>
+                <Box sx={{ height: 'auto', width: '400px', bgcolor: '#ef6c00', borderRadius: 4, display: 'flex', flexDirection: 'column', marginInline: 5 }} boxShadow={7}>
                     <Box sx={{ margin: 2 }}>
                         <Typography color='#d500f9' variant='h4'>Login...!!</Typography>
                     </Box>
@@ -65,7 +77,7 @@ export default function Driverlogin() {
 
                         <Button fullWidth variant='contained' color='secondary' onClick={handlelogin}>Login</Button>
                         <Link to={'/driver-register'}>Don't account ? Register first</Link>
-                    
+
                     </Box>
                     <Modal
                         disablePortal

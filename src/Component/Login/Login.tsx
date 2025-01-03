@@ -1,4 +1,4 @@
-import { Box, Button, Modal, TextField, Typography } from '@mui/material'
+import { Box, Button, Link, Modal, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import CheckSharpIcon from '@mui/icons-material/CheckSharp';
@@ -28,22 +28,24 @@ export default function Login() {
         const datas: logindata = {
             email, password
         }
-        axios.post('http://localhost:4001/api/user/login', datas)
+        axios.post('http://localhost:4242/api/user/login', datas)
             .then((res) => {
                 localStorage.setItem("user", res.data.token)
                 localStorage.setItem("id", res.data.datas._id)
                 handleopen()
                 setemail(" ")
                 setpassword(" ")
+                navi('/user-panel/user-home')
+
             })
             .catch()
     }
     useEffect(() => {
         const auth = localStorage.getItem('user')
         if (auth) {
-            navi('/user-panel')
+            navi('/user-panel/user-home')
         }
-    })
+    }, [navi])
     return (
         <div>
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '640px', flexGrow: 1, backgroundImage: 'url("./image/login.png")', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
@@ -59,6 +61,7 @@ export default function Login() {
                         <TextField fullWidth type='password' size='small' variant='standard' label="Password" onChange={(e) => { setpassword(e.target.value) }} color="secondary" focused></TextField>
 
                         <Button fullWidth variant='contained' color='secondary' onClick={handlelogin}>Login</Button>
+                        <Link href={'/user-register'} sx={{ textDecoration: 'none' }}>Don't account ? Register first</Link>
                     </Box>
                     <Modal
                         disablePortal

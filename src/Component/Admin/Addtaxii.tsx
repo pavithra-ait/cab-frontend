@@ -10,9 +10,9 @@ export default function AddTaxi() {
     const [taxiname, setName] = useState('');
     const [taxibrand, setBrand] = useState('');
     const [taxiimage, setImage] = useState<File | null>(null);
-    const [driverid, setDriverId] = useState('');
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
+    const [driverid, setdriverid] = useState("");
 
     function handleOpen() {
         setOpen(true);
@@ -22,7 +22,12 @@ export default function AddTaxi() {
         setOpen(false);
     }
     const navi = useNavigate()
-    function handleRegister() {
+
+
+
+
+    async function handleRegister() {
+
         const formData = new FormData();
         formData.append('taxiname', taxiname);
         formData.append('taxibrand', taxibrand);
@@ -31,14 +36,13 @@ export default function AddTaxi() {
         formData.append('from', from);
         formData.append('to', to);
 
-        axios
-            .post('http://localhost:4001/api/taxi/create', formData)
+        await axios.post('http://localhost:4242/api/taxi/create', formData)
             .then(() => {
                 handleOpen();
                 setName('');
                 setBrand('');
                 setImage(null);
-                setDriverId('');
+                setdriverid('');
                 setFrom('');
                 setTo('');
                 navi('/admin-panel/taxi-list')
@@ -74,7 +78,7 @@ export default function AddTaxi() {
                 >
                     <Box sx={{ margin: 2 }}>
                         <Typography color="primary" variant="h4">
-                        Add a Taxi
+                            Add a Taxi
                         </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', margin: 2, gap: 2 }}>
@@ -85,7 +89,7 @@ export default function AddTaxi() {
                             value={taxiname}
                             onChange={(e) => setName(e.target.value)}
                             variant="filled"
-                           
+
                             focused
                         />
                         <TextField
@@ -98,7 +102,7 @@ export default function AddTaxi() {
                             focused
                         />
                         <TextField
-                        fullWidth
+                            fullWidth
                             type="file"
                             size="small"
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -106,12 +110,12 @@ export default function AddTaxi() {
                             focused
                         />
                         <TextField
-                        fullWidth
+                            fullWidth
                             type="text"
                             size="small"
                             label="Driver ID"
                             value={driverid}
-                            onChange={(e) => setDriverId(e.target.value)}
+                            onChange={(e) => setdriverid(e.target.value)}
                             variant="filled"
                             focused
                         />

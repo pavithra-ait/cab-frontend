@@ -39,7 +39,7 @@ export default function Driverregister() {
         const datas: driverdata = {
             name, email, password, gender, city, address, mobile: Number(mobile), licence: Number(licence)
         }
-        axios.post('http://localhost:4001/api/driver/register', datas)
+        axios.post('http://localhost:4242/api/driver/register', datas)
             .then(() => {
                 handleopen()
                 setname(" ")
@@ -49,12 +49,13 @@ export default function Driverregister() {
                 setcity(" ")
                 setaddress(" ")
                 setmobile(" ")
+                window.location.href = '/driver-login'
             })
             .catch()
     }
     return (
         <div>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '640px', flexGrow: 1, bgcolor: '#69f0ae' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '640px', flexGrow: 1 }}>
 
                 <Box sx={{ height: 'auto', width: '500px', bgcolor: 'Background', borderRadius: 4, display: 'flex', flexDirection: 'column', marginInline: 5 }} boxShadow={7}>
                     <Box sx={{ margin: 2 }}>

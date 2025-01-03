@@ -62,7 +62,7 @@ const Bookinglist: React.FC = () => {
         };
 
         console.log('Making API call to create payment intent...');
-        await axios.post('http://localhost:4001/api/payment/create-payment-intent', data, {
+        await axios.post('http://localhost:4242/api/payment/create-payment-intent', data, {
             headers: {
                 'Content-Type': 'application/json'
             }

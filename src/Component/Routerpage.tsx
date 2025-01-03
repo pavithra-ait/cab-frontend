@@ -22,6 +22,9 @@ import Taxiavailable from './User/Taxiavailable'
 import Booking from './User/Booking'
 import Bookinglist from './Driver/Booinglist'
 import Paymentlist from './User/Paymentlist'
+import Processofloss from './Processofloss'
+import Payment from './Payment'
+import Processpay from './Proccesspay'
 
 export default function Routerpage() {
     return (
@@ -33,7 +36,7 @@ export default function Routerpage() {
                     <Route path='/' element={<Header />}>
                         <Route path='home' element={<Homepage />}></Route>
                         <Route path='about' element={<About />}></Route>
-                        <Route path='/login' element={<Login />}></Route>
+                        <Route path='/user-login' element={<Login />}></Route>
                         <Route path='/driver-login' element={<Driverlogin />}></Route>
                         <Route path='/user-register' element={<Userregister />}></Route>
                         <Route path='/driver-register' element={<Driverregister />}></Route>
@@ -46,8 +49,10 @@ export default function Routerpage() {
                         <Route path='user-home' element={<Userhome />}></Route>
                         <Route path='taxi-available' element={<Taxiavailable />}></Route>
                         <Route path='booking' element={<Booking />}></Route>
-                        <Route path='payment-list' element={<Paymentlist />}></Route>
+                        <Route path='payment-list' element={<Payment />}></Route>
                     </Route>
+                    <Route path='/success' element={<Processpay />}></Route>
+                    <Route path='/cancel' element={<Processofloss />}></Route>
 
                     <Route path='/driver-panel' element={<Navigate to='/driver-panel/driver-home' />} />
 

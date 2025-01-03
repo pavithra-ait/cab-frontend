@@ -29,7 +29,7 @@ export default function Userpanel() {
   React.useEffect(() => {
     const auth = localStorage.getItem('user');
     if (!auth) {
-      navi('/login')
+      navi('/user-login')
     }
   })
 
